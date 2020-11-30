@@ -1,0 +1,32 @@
+{
+  "name": "URL-Shortener-backend-shaunho-a3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunhoshenteck/URL-Shortener-backend-shaunho-a3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaunhoshenteck/URL-Shortener-backend-shaunho-a3/issues"
+  },
+  "homepage": "https://github.com/shaunhoshenteck/URL-Shortener-backend-shaunho-a3#readme",
+  "dependencies": {
+    "config": "^3.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.18",
+    "shortid": "^2.2.16",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
