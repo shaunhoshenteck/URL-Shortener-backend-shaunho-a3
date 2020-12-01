@@ -6,7 +6,7 @@ const validUrl = require("valid-url");
 
 const URL = require("../models/url");
 
-// POST REQUEST TO /api/url/shortenUrl
+// POST REQUEST TO /api/url/shortenurl
 router.post("/shortenurl", async (req, res) => {
   const { longUrl } = req.body;
   const { customizedUrl } = req.body;
@@ -19,7 +19,6 @@ router.post("/shortenurl", async (req, res) => {
   }
 
   // Create URL code, using shortId
-  console.log(longUrl);
   // Checks long Url that comes in from the client
   if (validUrl.isUri(longUrl)) {
     try {

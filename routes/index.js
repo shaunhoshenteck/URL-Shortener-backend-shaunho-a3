@@ -20,4 +20,15 @@ router.get("/:code", async (req, res) => {
   }
 });
 
+// Delete Request To /:shortUrl
+router.delete("/:shorturl", async (req, res) => {
+  try {
+    const removedUrl = await URL.deleteOne({ shortCode: req.params.shorturl });
+    res.json(removedUrl);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json("There is a server error");
+  }
+});
+
 module.exports = router;
