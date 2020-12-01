@@ -2,7 +2,7 @@ const { Mongoose } = require("mongoose");
 const mongoose = require("mongoose");
 
 const urlSchema = new mongoose.Schema({
-  urlCode: String,
+  shortCode: String,
   shortUrl: String,
   longUrl: String,
   date: { type: String, default: Date.now },
