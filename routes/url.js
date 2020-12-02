@@ -6,10 +6,9 @@ const validUrl = require("valid-url");
 
 const URL = require("../models/url");
 
-// POST REQUEST TO /api/url/shortenurl
-router.post("/shortenurl", async (req, res) => {
-  const { longUrl } = req.body;
-  const { customizedUrl } = req.body;
+// POST REQUEST TO /api/url/create
+router.post("/create", async (req, res) => {
+  const { longUrl, customString } = req.body;
   // Get from config global folder
   const baseUrl = config.get("baseURL");
 
@@ -27,16 +26,28 @@ router.post("/shortenurl", async (req, res) => {
       let shortUrl;
       // if there is a url found, then return the url that was found in the response as a json
       if (url) {
-        res.json(url);
+        console.log("longUrl already exists");
+        console.log(url);
+        return res.status(201).json(url);
         // if not, means we have to create it and put it in the databse
       } else {
-        if (customizedUrl) {
-          shortUrl = baseUrl + "/" + customizedUrl;
-          shortCode = customizedUrl;
+        if (customString) {
+          shortUrl = baseUrl + "/" + customString;
+          shortCode = customString;
         } else {
           shortCode = shortId.generate();
           shortUrl = baseUrl + "/" + shortCode;
         }
+
+        // check shortCode is not duplicate
+        let data = await URL.findOne({ shortCode });
+        if (data) {
+          console.log(`customString: ${customString} already exists`);
+          return res
+            .status(409)
+            .json(`customString: ${customString} already exists`);
+        }
+
         // create a new Url object to be inserted into the database
         url = new URL({
           shortCode,
@@ -54,7 +65,7 @@ router.post("/shortenurl", async (req, res) => {
     }
     // if longURL is invalid
   } else {
-    res.status(400).json("long url Invalid");
+    return res.status(401).json("long url Invalid");
   }
 });
 
