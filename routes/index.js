@@ -22,10 +22,10 @@ router.get("/:code", async (req, res) => {
   }
 });
 
-// Delete Request To /:shortUrl
-router.delete("/delete/:shorturl", async (req, res) => {
+// Delete Request To /delete/:shortcode
+router.delete("/delete/:shortcode", async (req, res) => {
   try {
-    const removedUrl = await URL.deleteOne({ shortCode: req.params.shorturl });
+    const removedUrl = await URL.deleteOne({ shortCode: req.params.shortcode });
     res.json(removedUrl);
   } catch (err) {
     console.error(err);
@@ -33,14 +33,14 @@ router.delete("/delete/:shorturl", async (req, res) => {
   }
 });
 
-// Update Request To /:shorturl
-router.patch("/edit/:shorturl", async (req, res) => {
+// Update Request To /edit/:shortcode
+router.patch("/edit/:shortcode", async (req, res) => {
   const { newLongUrl } = req.body;
   if (validUrl.isUri(newLongUrl)) {
     console.log(newLongUrl);
     try {
       const updateUrl = await URL.updateOne(
-        { shortCode: req.params.shorturl },
+        { shortCode: req.params.shortcode },
         { $set: { longUrl: newLongUrl } }
       );
       res.json(updateUrl);
