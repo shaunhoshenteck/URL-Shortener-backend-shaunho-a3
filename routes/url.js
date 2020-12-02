@@ -28,7 +28,7 @@ router.post("/create", async (req, res) => {
       if (url) {
         console.log("longUrl already exists");
         console.log(url);
-        return res.status(201).json(url);
+        return res.status(201).json("URL ALREADY EXISTS: " + url.shortUrl);
         // if not, means we have to create it and put it in the databse
       } else {
         if (customString) {
