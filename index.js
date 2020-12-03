@@ -11,6 +11,10 @@ connectDB();
 app.use(express.json({ extended: false }));
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // routes
 app.use("/", indexRouter);
 app.use("/api/url", urlRouter);
