@@ -6,6 +6,34 @@ const validUrl = require("valid-url");
 
 const URL = require("../models/url");
 
+// GET /api/url/all
+router.get("/all", async (req, res) => {
+  try {
+    let all_datas = await URL.find();
+    return res.json(all_datas);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json("Server error");
+  }
+});
+
+// GET /api/url/:shortcode
+router.get("/:urlCode", async (req, res) => {
+  const code = req.params.urlCode;
+  try {
+    let data = await URL.findOne({ shortCode: code });
+    if (data) {
+      return res.json(data);
+    } else {
+      console.log(`Cannot find urlCode: ${code}`);
+      return res.status(404).json(`Cannot find urlCode: ${code}`);
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json("Server error");
+  }
+});
+
 // POST REQUEST TO /api/url/create
 router.post("/create", async (req, res) => {
   const { longUrl, customString } = req.body;
@@ -26,9 +54,7 @@ router.post("/create", async (req, res) => {
       let shortUrl;
       // if there is a url found, then return the url that was found in the response as a json
       if (url) {
-        console.log("longUrl already exists");
-        console.log(url);
-        return res.status(201).json("URL ALREADY EXISTS: " + url.shortUrl);
+        return res.status(201).json(url);
         // if not, means we have to create it and put it in the databse
       } else {
         if (customString) {
@@ -66,6 +92,37 @@ router.post("/create", async (req, res) => {
     // if longURL is invalid
   } else {
     return res.status(401).json("long url Invalid");
+  }
+});
+
+// Delete Request To /delete/:shortcode
+router.delete("/delete/:shortcode", async (req, res) => {
+  try {
+    const removedUrl = await URL.deleteOne({ shortCode: req.params.shortcode });
+    res.json(removedUrl);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json("There is a server error");
+  }
+});
+
+// Update Request To /edit/:shortcode
+router.patch("/edit/:shortcode", async (req, res) => {
+  const { newLongUrl } = req.body;
+  const code = req.params.shortcode;
+  if (validUrl.isUri(newLongUrl)) {
+    try {
+      let updateUrl = await URL.findOneAndUpdate(
+        { shortCode: req.params.shortcode },
+        { longUrl: newLongUrl, date: new Date() },
+        { new: true }
+      );
+      return res.json(updateUrl);
+    } catch (err) {
+      res.status(500).json("There is a server error");
+    }
+  } else {
+    res.status(401).json("new long url is invalid");
   }
 });
 
