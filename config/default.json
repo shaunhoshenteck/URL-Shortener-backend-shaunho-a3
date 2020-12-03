@@ -1,4 +1,4 @@
 {
   "mongoURI": "mongodb+srv://Shaun:superman123@urlshortener.ab1cc.mongodb.net/shauncluster?retryWrites=true&w=majority",
-  "baseURL": "https://url-shortener-front-end-a3.herokuapp.com"
+  "baseURL": "http://localhost:5000"
 }
