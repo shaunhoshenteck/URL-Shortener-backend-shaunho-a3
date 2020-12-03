@@ -5,10 +5,6 @@ const router = express.Router();
 const validUrl = require("valid-url");
 const URL = require("../models/url");
 
-router.get("/abc", (req, res) => {
-  res.send("Hello World");
-});
-
 // GET request
 router.get("/:code", async (req, res) => {
   try {
